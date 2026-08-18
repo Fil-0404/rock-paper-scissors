@@ -6,54 +6,65 @@ function getComputerChoice(){
     else return "scissors";
 }
 
-
-function getHumanChoice(){
-    let choice = prompt("Choose rock, paper or scissors:");
-
-    return choice.toLowerCase();
-}
-
-
-function playGame(){
+const results = document.querySelector("#results");
+const score = document.querySelector("#score");
 
 let humanScore = 0;
 let computerScore = 0;
+let gameOver = false;
 
 function playRound(humanChoice,computerChoice){
+
+if (gameOver) {
+    return;
+}
+
   if(humanChoice === computerChoice){
-    console.log(" ISOPALIA");
+    results.textContent = "ΙΣΟΠΑΛΙΑ";
+    score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
   }
   else if((humanChoice==="rock" && computerChoice==="scissors") || (humanChoice==="paper" && computerChoice==="rock") || (humanChoice==="scissors" && computerChoice==="paper")){
-    console.log("You win! " + humanChoice + " beats "  + computerChoice);
+    results.textContent = "You win! " + humanChoice + " beats " + computerChoice;
     humanScore++;
+    score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
   }
   else{
-    console.log("You lose! " + computerChoice + " beats " + humanChoice);
+    results.textContent = "You lose! " + computerChoice + " beats " + humanChoice;
     computerScore++;
+    score.textContent = `Human: ${humanScore} | Computer: ${computerScore}`;
   }
+
+  if (humanScore === 5) {
+    results.textContent = "🏆 You win the game!";
+    gameOver = true;
+  }
+  else if (computerScore === 5) {
+    results.textContent = "💻 Computer wins the game!";
+    gameOver = true;
+}
 }
 
-  for(let i=1;i<=5;i++){
-    let computerSelection = getComputerChoice();
-    let humanSelection = getHumanChoice();
+const rockButton = document.querySelector('#rock');
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
 
-    console.log(humanSelection);
-    console.log(computerSelection);
+rockButton.addEventListener("click", function () {
+    const computerSelection = getComputerChoice();
+    playRound("rock", computerSelection);
+});
 
-    playRound(humanSelection,computerSelection);
-  } 
-  
-  if(humanScore>computerScore){
-    console.log("ΝΙΚΗΤΗΣ ΑΝΘΡΩΠΟΣ");
-  } 
-  else if(humanScore<computerScore){
-    console.log("ΝΙΚΗΤΗΣ PC");
-  }
-  else{
-    console.log("ISOPALIA");
-  }
+paperButton.addEventListener("click", function () {
+    const computerSelection = getComputerChoice();
+    playRound("paper", computerSelection);
+});
 
-}
+scissorsButton.addEventListener("click", function () {
+    const computerSelection = getComputerChoice();
+    playRound("scissors", computerSelection);
+});
 
-playGame();
+
+
+
+
 
